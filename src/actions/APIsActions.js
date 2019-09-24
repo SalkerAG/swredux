@@ -1,27 +1,34 @@
-import { START_API_FILM, API_FILM_SUCCESS, API_FILM_ERROR } from "../types";
-import Axios from "axios";
-import FilmAPI from "../services/FilmAPI";
+import { START_API_FILM, API_FILM_SUCCESS, API_FILM_ERROR, CLEAN_API_FILM } from "../types";
+import { FilmAPI } from "../services/API"
 
 // Buscar una pelicula en la API
 
 export function searchNewFilmAction(title) {
-  return dispatch => {
-    console.log(title);
-    dispatch(newSearch(title));
-    var newTitle = title.split(/[ ]+/).join("+");
-    Axios.get(`https://www.swapi.co/api/films/?search=${newTitle}`)
-      .then(respuesta => {
-        console.log(respuesta);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  return async dispatch => {
+    dispatch(newSearch());
+    FilmAPI(title).then(response => {
+      dispatch(newSearchSuccess(response.data.results[0]));
+    }).catch(() => {
+      dispatch(newSearchError());
+    })
   };
 }
 
-export const newSearch = title => ({
+export function cleanSearch = () => ({
+  type: CLEAN_API_FILM
+})
+
+export const newSearch = () => ({
   type: START_API_FILM,
-  payload: title
 });
 
-export const newSearchSuccess = 
+
+export const newSearchSuccess = (respuesta) => ({
+  type: API_FILM_SUCCESS,
+  payload: respuesta
+})
+
+export const newSearchError = () => ({
+  type: API_FILM_ERROR
+})
+

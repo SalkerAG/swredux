@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { searchNewFilmAction } from "../../actions/APIsActions"
+import { searchNewFilmAction, cleanSearch } from "../../actions/APIsActions"
 import {
   validateFormAction,
   validateSuccess,
   validateError
 } from "../../actions/validationsActions.js";
 import Select from "react-select";
+import ShowFilmSearch from "../Films/ShowFilmSearch"
+import Spin from "../Layout/Spin"
 
 const Home = () => {
   //State
@@ -15,9 +17,13 @@ const Home = () => {
   //Crer nueva tarjeta pelicula
   const dispatch = useDispatch();
   const searchFilm = title => dispatch(searchNewFilmAction(title));
+  const cleanSearch = () => dispatch(cleanSearch());
   const validateForm = () => dispatch(validateFormAction());
   const successValidate = () => dispatch(validateSuccess());
   const errorValidate = () => dispatch(validateError());
+  const loading = useSelector(state => state.apis.loading);
+  const film = useSelector( state => state.apis.film);
+  console.log(film);
 
   //Opciones búsqueda select
   const options = [
@@ -38,73 +44,91 @@ const Home = () => {
     e.preventDefault();
 
     validateForm();
-    if (title.value.trim() === "") {
+    if (title.value === undefined|| title.value.trim() === "") {
       errorValidate();
       return;
     }
     successValidate();
     searchFilm(title.value);
   }
-
   return (
+    <>
     <div className="row justify-content-inherit mt-5">
       <div className="col-md-3">
-
+        <h2 className="text-center">PELICULAS VISITADAS</h2>
       </div>
+
       <div className="col-md-6">
-        <div className="card">
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-12">
-                <h2 className="h2-form text-center mb-4">
-                  ¡Encuentra tu película!
-                  </h2>
-              </div>
-
-              <form className="col card text-white bg-transparent  mb-5 pt-5 pb-2" onSubmit={submitFilm}>
-                <div className="row">
-
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <Select
-                        placeholder="Título..."
-                        className="text-dark"
-                        options={options}
-                        value={title}
-                        onChange={value => setTitle(value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <button
-                        type="submit"
-                        className="form-control btn btn-primary float-right"
-                      >
-                        Buscar
-                  </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-              {error ? (
-
+          <div className="card">
+            <div className="card-body">
+              <div className="row">
                 <div className="col-md-12">
-                  <div className="font-weight-bold alert alert-primary text-center mt-10">
-                    Todos los campos son obligatorios
-                    </div>
+                  <h2 className="h2-form text-center mb-4">
+                    ¡Encuentra tu película!
+                    </h2>
                 </div>
 
-              ) : null}
+                <form className="col card text-white bg-transparent  mb-5 pt-5 pb-2" onSubmit={submitFilm}>
+                  <div className="row">
+
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <Select
+                          placeholder="Título..."
+                          className="text-dark"
+                          options={options}
+                          value={title}
+                          onChange={value => setTitle(value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-3">
+                      <div className="form-group">
+                        <button
+                          type="submit"
+                          className="form-control btn btn-primary float-right"
+                        >
+                          Buscar
+                        </button>
+                      </div>
+                    </div>
+                    <div className="col-md-3">
+                      <div className="form-group">
+                        <button
+                          onClick={cleanSearch()}
+                          className="form-control btn btn-primary float-right"
+                        >
+                          Limpiar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  {error ?
+        (
+              <div className="font-weight-bold alert alert-danger text-center mt-4">Todos los campos son obligatorios</div>
+        ) : (
+          <>
+          {loading ? (
+            <Spin />
+            ) : (
+              Object.keys(film).length === 0 ? null
+              : (
+              <ShowFilmSearch film={film}/>
+              )
+            )
+          }
+          </>
+      )}
+                </form>
+              </div>
             </div>
           </div>
         </div>
+        <div className="col-md-3">
+          <h2 className="text-center">CARRUSEL PERSONAJES</h2>
+        </div>
       </div>
-      <div className="col-md-2">
-
-      </div>
-    </div>
-
+    </>
   );
 };
 
