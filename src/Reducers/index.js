@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
 import validationsReducer from "./validationsReducer";
-import APIsReducer from "./APIsFilmReducer";
+import APIsFilmReducer from "./APIsFilmReducer";
+import APIsCharacterReducer from "./APIsCharacterReducer";
 
 export default combineReducers({
   error: validationsReducer,
-  apis: APIsReducer
+  apis: APIsFilmReducer,
+  apisCharacter: APIsCharacterReducer
 });

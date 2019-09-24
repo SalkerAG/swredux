@@ -1,4 +1,4 @@
-import api from "./config"
+import api from "./config";
 
 export async function FilmAPI(title) {
   if (Object.keys(title).length === 0) return null;
@@ -7,9 +7,18 @@ export async function FilmAPI(title) {
   try {
     const url = `films/?search=${newTitle}`;
     const r = await api.get(url);
-    console.log("TCL: FilmAPI -> r", r);
     return r;
-  } catch(error ) {
-    console.log(error)
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function carouselCharacterAPI() {
+  try {
+    const url = "people/";
+    const r = await api.get(url);
+    return r;
+  } catch (error) {
+    return error;
   }
 }
