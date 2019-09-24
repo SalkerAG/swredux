@@ -18,7 +18,7 @@ function filmEncontrada({ film }) {
             <p>Producida: {film.producer}</p>
             <p>Lanzamiento: {film.release_date}</p>
             <Link
-              to={`/film/${idAPI}`}
+              to={`/peliculas/${idAPI}`}
               className="btn btn-primary"
               params={{ id: idAPI }}
             >

@@ -16,8 +16,6 @@ const FilmListLocalStorage = ({ films }) => {
     autoplay: true
   };
 
-  console.log("ES IGUAL A 1??", Object.keys(films).length);
-
   return (
     <>
       <Slider {...settings}>

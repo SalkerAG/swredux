@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const CarouselCardCharacter = ({ film }) => {
-  var idAPI = film.url.substr(32, 2);
+  var idAPI = film.url.substr(31, 1);
   return (
     <>
       <div className="container-fluid">
@@ -16,11 +16,9 @@ const CarouselCardCharacter = ({ film }) => {
               <p>Productor/es: {film.producer}</p>
               <p>Fecha de estreno: {film.release_date}</p>
               <Link
-                to={{
-                  pathname: `/film/${idAPI}`,
-                  state: { film: { film } }
-                }}
+                to={`/peliculas/${idAPI}`}
                 className="btn btn-primary"
+                params={{ id: idAPI }}
               >
                 ¡Más información!
               </Link>

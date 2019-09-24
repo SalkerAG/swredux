@@ -71,8 +71,6 @@ const Home = () => {
       var insert = true;
       if (Object.keys(films).length === 0) {
         films.push(film);
-        console.log(Object.keys(films[0]).length === 0);
-
         localStorage.setItem("films", JSON.stringify(films));
       } else {
         // eslint-disable-next-line array-callback-return

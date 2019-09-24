@@ -2,9 +2,12 @@ import {
   START_API_FILM,
   API_FILM_SUCCESS,
   API_FILM_ERROR,
-  CLEAN_API_FILM
+  CLEAN_API_FILM,
+  START_FILM_DETAILS,
+  DETAILS_FILM_SUCCESS,
+  DETAILS_FILM_ERROR
 } from "../types";
-import { FilmAPI } from "../services/API";
+import { FilmAPI, FilmDetailsAPI } from "../services/API";
 
 // Buscar una pelicula en la API
 export function searchNewFilmAction(title) {
@@ -42,4 +45,32 @@ export function cleanSearchAction() {
 
 export const cleanSearch = () => ({
   type: CLEAN_API_FILM
+});
+
+// Busqueda de los detalles de una película
+
+export function startDetailsFilmAction(id) {
+  return async dispatch => {
+    dispatch(startDetailsFilm());
+    FilmDetailsAPI(id)
+      .then(response => {
+        dispatch(startDetailsFilmSucess(response.data));
+      })
+      .catch(() => {
+        dispatch(newSearchError());
+      });
+  };
+}
+
+export const startDetailsFilm = () => ({
+  type: START_FILM_DETAILS
+});
+
+export const startDetailsFilmSucess = film => ({
+  type: DETAILS_FILM_SUCCESS,
+  payload: film
+});
+
+export const startDetailsFilmError = () => ({
+  type: DETAILS_FILM_ERROR
 });

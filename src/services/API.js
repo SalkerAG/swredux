@@ -22,3 +22,24 @@ export async function carouselCharacterAPI() {
     return error;
   }
 }
+
+export async function FilmDetailsAPI(id) {
+  try {
+    const url = `films/${id}`;
+    const r = await api.get(url);
+    return r;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function nameCharacterAPI(character) {
+  var idAPI = character.url.substr(28, 2);
+  try {
+    const url = `people/${idAPI}`;
+    const r = await api.get(url);
+    return r;
+  } catch (error) {
+    return error;
+  }
+}
