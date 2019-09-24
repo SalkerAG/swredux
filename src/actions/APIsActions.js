@@ -14,10 +14,6 @@ export function searchNewFilmAction(title) {
   };
 }
 
-export function cleanSearch = () => ({
-  type: CLEAN_API_FILM
-})
-
 export const newSearch = () => ({
   type: START_API_FILM,
 });
@@ -32,3 +28,13 @@ export const newSearchError = () => ({
   type: API_FILM_ERROR
 })
 
+
+export function cleanSearchAction() {
+  return dispatch => {
+    dispatch(cleanSearch());
+  }
+}
+
+export const cleanSearch = () => ({
+  type: CLEAN_API_FILM
+});

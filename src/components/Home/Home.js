@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { searchNewFilmAction, cleanSearch } from "../../actions/APIsActions"
+import { searchNewFilmAction, cleanSearchAction } from "../../actions/APIsActions"
 import {
   validateFormAction,
   validateSuccess,
@@ -17,7 +17,7 @@ const Home = () => {
   //Crer nueva tarjeta pelicula
   const dispatch = useDispatch();
   const searchFilm = title => dispatch(searchNewFilmAction(title));
-  const cleanSearch = () => dispatch(cleanSearch());
+  const cleanSearch = () => dispatch(cleanSearchAction());
   const validateForm = () => dispatch(validateFormAction());
   const successValidate = () => dispatch(validateSuccess());
   const errorValidate = () => dispatch(validateError());
@@ -95,7 +95,8 @@ const Home = () => {
                     <div className="col-md-3">
                       <div className="form-group">
                         <button
-                          onClick={cleanSearch()}
+                          type="reset"
+                          onClick={() => cleanSearch()}
                           className="form-control btn btn-primary float-right"
                         >
                           Limpiar

@@ -12,7 +12,6 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case CLEAN_API_FILM:
       return {
-        ...state,
         film: {},
         loading: false,
         error: null
