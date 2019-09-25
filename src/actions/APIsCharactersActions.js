@@ -4,9 +4,12 @@ import {
   API_CHARACTER_ERROR,
   START_NAME_CHARACTER,
   NAME_CHARACTER_SUCCESS,
-  NAME_CHARACTER_ERROR
+  NAME_CHARACTER_ERROR,
+  START_DETAILS_CHARACTER,
+  DETAILS_CHARACTER_SUCCESS,
+  DETAILS_CHARACTER_ERROR
 } from "../types";
-import { carouselCharacterAPI, nameCharacterAPI } from "../services/API";
+import { carouselCharacterAPI, nameCharacterAPI, detailsCharacterAPI } from "../services/API";
 
 // Carouse de Characters
 export function carouselCharactersAction() {
@@ -40,14 +43,14 @@ export const newCarouselError = () => ({
 export function nameCharactersAction(charactersURL) {
   return async dispatch => {
     dispatch(newNameCharacter());
-    nameCharacterAPI(charactersURL)
-      .then(response => {
-        console.log("DATA", response.data);
-        // dispatch(newNameCharacterSuccess(response.data.results))
-      })
-      .catch(() => {
+    // eslint-disable-next-line array-callback-return
+    charactersURL.map((characterURL, index) => {
+      nameCharacterAPI(characterURL).then(response => {
+        dispatch(newNameCharacterSuccess(response.data));
+      }).catch(() => {
         dispatch(newNameCharacterError());
-      });
+      })
+    })
   };
 }
 
@@ -63,3 +66,29 @@ export const newNameCharacterSuccess = character => ({
 export const newNameCharacterError = () => ({
   type: NAME_CHARACTER_ERROR
 });
+
+// INFORMACIÓN DE LOS CHARACTERS
+
+export function DetailsCharactersAction(id) {
+  return async dispatch => {
+    dispatch(newDetailsCharacter());
+    detailsCharacterAPI(id).then(response => {
+      dispatch(newDetailsCharacterSuccess(response.data))
+    }).catch(() => {
+      dispatch(newDetailsCharacterError())
+    })
+  }
+}
+
+export const newDetailsCharacter = () => ({
+  type: START_DETAILS_CHARACTER
+})
+
+export const newDetailsCharacterSuccess = (character) => ({
+  type: DETAILS_CHARACTER_SUCCESS,
+  payload: character
+})
+
+export const newDetailsCharacterError = () => ({
+  type: DETAILS_CHARACTER_ERROR
+})

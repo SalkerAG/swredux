@@ -26,6 +26,16 @@ legend {
   font-family: "Work Sans", sans-serif;
 }
 
+.photoImg {
+  width: 100%;
+}
+
+.photoImgCard {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
 .h2-form {
   color: black;
 }

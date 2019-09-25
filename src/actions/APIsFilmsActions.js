@@ -5,9 +5,15 @@ import {
   CLEAN_API_FILM,
   START_FILM_DETAILS,
   DETAILS_FILM_SUCCESS,
-  DETAILS_FILM_ERROR
+  DETAILS_FILM_ERROR,
+  API_FILM_FULL,
+  API_FILM_FULL_SUCCESS,
+  API_FILM_FULL_ERROR,
+  START_FILM_CHARACTER,
+  FILM_CHARACTER_SUCCESS,
+  FILM_CHARACTER_ERROR
 } from "../types";
-import { FilmAPI, FilmDetailsAPI } from "../services/API";
+import { FilmAPI, FilmDetailsAPI, FilmsAPIfull, filmCharacter } from "../services/API";
 
 // Buscar una pelicula en la API
 export function searchNewFilmAction(title) {
@@ -74,3 +80,55 @@ export const startDetailsFilmSucess = film => ({
 export const startDetailsFilmError = () => ({
   type: DETAILS_FILM_ERROR
 });
+
+export function filmsFullAction() {
+  return async dispatch => {
+    dispatch(startFilmsFull());
+    FilmsAPIfull().then(response => {
+      dispatch(FilmsFullSuccess(response.data));
+    }).catch(() => {
+      dispatch(FilmsFullError())
+    })
+  }
+}
+
+export const startFilmsFull = () => ({
+  type: API_FILM_FULL
+})
+
+export const FilmsFullSuccess = (films) => ({
+  type: API_FILM_FULL_SUCCESS,
+  payload: films
+})
+
+export const FilmsFullError = () => ({
+  type: API_FILM_FULL_ERROR,
+})
+
+
+export function filmCharactersAction(films) {
+  return async dispatch => {
+    dispatch(newFilmCharacter());
+    // eslint-disable-next-line array-callback-return
+    films.map((film, index) => {
+      filmCharacter(film).then(response => {
+        dispatch(newFilmCharacterSuccess(response.data));
+      }).catch(() => {
+        dispatch(newFilmCharacterError());
+      })
+    })
+  };
+}
+
+export const newFilmCharacter = () => ({
+  type: START_FILM_CHARACTER
+})
+
+export const newFilmCharacterSuccess = (film) => ({
+  type: FILM_CHARACTER_SUCCESS,
+  payload: film
+})
+
+export const newFilmCharacterError = () => ({
+  type: FILM_CHARACTER_ERROR,
+})

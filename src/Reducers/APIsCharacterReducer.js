@@ -4,7 +4,10 @@ import {
   API_CHARACTER_ERROR,
   START_NAME_CHARACTER,
   NAME_CHARACTER_SUCCESS,
-  NAME_CHARACTER_ERROR
+  NAME_CHARACTER_ERROR,
+  START_DETAILS_CHARACTER,
+  DETAILS_CHARACTER_SUCCESS,
+  DETAILS_CHARACTER_ERROR
 } from "../types";
 
 const initialState = {
@@ -47,17 +50,37 @@ export default function(state = initialState, action) {
     case NAME_CHARACTER_SUCCESS:
       return {
         ...state,
-        character: action.payload,
+        characters:[ ...state.characters, action.payload],
         loading: false,
         error: null
       };
     case NAME_CHARACTER_ERROR:
       return {
         ...state,
-        character: {},
+        characters: [],
         loading: false,
         error: true
       };
+    case START_DETAILS_CHARACTER:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      }
+    case DETAILS_CHARACTER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        character: action.payload,
+        error: null
+      }
+    case DETAILS_CHARACTER_ERROR:
+      return {
+        ...state,
+        loading: false,
+        character: [],
+        error:true
+      }
     default:
       return state;
   }

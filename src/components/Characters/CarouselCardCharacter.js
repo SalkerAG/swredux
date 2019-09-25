@@ -17,7 +17,7 @@ const CarouselCardCharacter = ({ character }) => {
           </div>
           <Link
             to={{
-              pathname: `/character/${idAPI}`,
+              pathname: `/personajes/${idAPI}`,
               state: { character: { character } }
             }}
             className="btn btn-primary"

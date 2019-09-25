@@ -6,7 +6,7 @@ import {
   startDetailsFilmAction,
   cleanSearchAction
 } from "../../actions/APIsFilmsActions";
-import ShowNameCharacter from "../Characters/ShowNameCharacter";
+import ShowCharacter from "../Characters/ShowCharacter";
 
 const DetailsFilm = ({ match }) => {
   const dispatch = useDispatch();
@@ -67,12 +67,11 @@ const DetailsFilm = ({ match }) => {
                     <p>Personajes:</p>
                     {characters === undefined
                       ? null
-                      : characters.map((character, index) => (
-                          <ShowNameCharacter
-                            key={index}
-                            character={character}
+                      :
+                          <ShowCharacter
+                            characters={characters}
                           />
-                        ))}
+                        }
                   </div>
                 </div>
               </div>
